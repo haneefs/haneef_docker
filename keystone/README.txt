@@ -19,5 +19,5 @@ GRANT ALL PRIVILEGES ON keystone_idp.* TO 'keystone_idp'@'%' IDENTIFIED BY 'keys
 
 #For kesytone_sp with the username keystone_sp
 CREATE DATABASE keystone_sp;
-GRANT ALL PRIVILEGES ON keystone_sp.* TO 'keystone_idp'@'localhost' IDENTIFIED BY 'keystone_sp';
-GRANT ALL PRIVILEGES ON keystone_sp.* TO 'keystone_idp'@'%' IDENTIFIED BY 'keystone_sp';
+GRANT ALL PRIVILEGES ON keystone_sp.* TO 'keystone_sp'@'localhost' IDENTIFIED BY 'keystone_sp';
+GRANT ALL PRIVILEGES ON keystone_sp.* TO 'keystone_sp'@'%' IDENTIFIED BY 'keystone_sp';
