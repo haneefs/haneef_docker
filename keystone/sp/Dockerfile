@@ -27,6 +27,20 @@ RUN apt-get install -y libsqlite3-dev libldap2-dev libsasl2-dev libssl-dev libxm
 RUN apt-get install -y apache2
 RUN apt-get install -y libapache2-mod-wsgi libssl-dev libffi-dev 
 
+#Install Apache2 mod-shlib2 - Required for federation
+RUN apt-get install -y  libapache2-mod-shib2
+
+ADD keystone-modwsgi.conf  /etc/apache2/sites-available/
+RUN a2ensite keystone-modwsgi
+
+ENV KEYSTONE_USER keystone
+RUN useradd -MU keystone
+
+#Latest version of modwsgi doesn't work without home directory
+#Just create a empty directory
+
+RUN mkdir -p /home/keystone
+
 # Make dir and clone openstack
 RUN mkdir -p /opt/stack/openstack/
 
@@ -42,20 +56,6 @@ RUN  python setup.py install
 
 #Required if you  use LDAP backend
 RUN pip install -U python-ldap 
-
-#Install Apache2 mod-shlib2 - Required for federation
-RUN apt-get install -y  libapache2-mod-shib2
-
-ADD keystone-modwsgi.conf  /etc/apache2/sites-available/
-RUN a2ensite keystone-modwsgi
-
-ENV KEYSTONE_USER keystone
-RUN useradd -MU keystone
-
-#Latest version of modwsgi doesn't work without home directory
-#Just create a empty directory
-
-RUN mkdir -p /home/keystone
 
 RUN mkdir -p /var/www/keystone/ 
 RUN ln -s /opt/stack/openstack/keystone/httpd/keystone.py /var/www/keystone/admin
